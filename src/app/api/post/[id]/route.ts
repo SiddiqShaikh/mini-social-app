@@ -8,6 +8,7 @@ export async function GET(
   segmentData: { params: Params }
 ) {
   const id = req.url.split("/");
+  
 
   try {
     const post = await prisma.post.findUnique({
