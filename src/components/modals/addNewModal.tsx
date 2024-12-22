@@ -9,6 +9,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import { usePostStore } from "@/app/hooks/useFetchPosts";
 
 type AddNewPost = {
   title: string;
@@ -22,19 +23,17 @@ export default function AddNewModal() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-
+  const { fetchPosts } = usePostStore();
   const [formData, setFormData] = useState<AddNewPost>({
     title: "",
     description: "",
     imageUrl: "",
   });
 
- 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -47,7 +46,6 @@ export default function AddNewModal() {
       }
     }
   };
-
 
   const handleUploadImage = async (file: File | null) => {
     if (!file) {
@@ -85,20 +83,16 @@ export default function AddNewModal() {
     e.preventDefault();
     setIsLoading(true);
 
- 
     const imageUpload = await handleUploadImage(file);
     if (!imageUpload) {
-
       setIsLoading(false);
       return;
     }
 
     const postData = {
       ...formData,
-      imageUrl: imageUpload?.imageUrl, 
+      imageUrl: imageUpload?.imageUrl,
     };
-
-
 
     axios
       .post("/api/post", postData)
@@ -106,16 +100,16 @@ export default function AddNewModal() {
         router.refresh();
         toast.success(res.data.message ?? "Success");
         addNewModalState.onClose();
-        
+        // fetchPosts();
       })
       .catch((error) => {
         toast.error(error.response?.data.message ?? "Something went wrong.");
       })
       .finally(() => {
         setIsLoading(false);
+        fetchPosts();
       });
   };
-
 
   const body = (
     <form onSubmit={handleSubmit} className="space-y-4">

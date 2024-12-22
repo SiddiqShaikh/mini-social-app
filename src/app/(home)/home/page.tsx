@@ -6,23 +6,24 @@ import { IPost } from "@/types/commonTypes";
 
 import Loader from "@/components/loader";
 import { PostCard } from "@/components/postCard";
+import { usePostStore } from "@/app/hooks/useFetchPosts";
 
 export default function Home() {
-  const [posts, setPosts] = useState<IPost[]>([]);
+  // const [posts, setPosts] = useState<IPost[]>([]);
+  const {error,fetchPosts,loading,posts} = usePostStore()
   const [isLoading, setIsLoading] = useState(false);
-  const fetchPosts = useCallback(() => {
-    setIsLoading(true);
-    axios
-      .get("/api/post")
-      .then((res) => {
-
-        setPosts(res.data.data);
-      })
-      .catch((err) => setPosts([]))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  // const fetchPosts = useCallback(() => {
+  //   setIsLoading(true);
+  //   axios
+  //     .get("/api/post")
+  //     .then((res) => {
+  //       setPosts(res.data.data);
+  //     })
+  //     .catch((err) => setPosts([]))
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
     fetchPosts();
@@ -37,6 +38,7 @@ export default function Home() {
       </div>
     );
   }
+  
 
   return (
     <div className={`calc(min-h-screen_-_4rem) w-full`}>
