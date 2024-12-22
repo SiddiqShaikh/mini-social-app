@@ -1,13 +1,14 @@
 
 
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[[...nextauth]]/route";
+// import { authOptions } from "../auth/[[...nextauth]]/route";
 
+type Params = Promise<{req:Request}>
 
-
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request, segmentData: { params: Params }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {

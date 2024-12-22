@@ -3,9 +3,10 @@ import { getServerSession } from "next-auth";
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prismadb";
-import { authOptions } from "../auth/[[...nextauth]]/route";
-
-export async function POST(req: Request, res: Response) {
+import { authOptions } from "@/lib/auth";
+// import { authOptions } from "../auth/[[...nextauth]]/route";
+type Params = Promise<{ req: Request }>;
+export async function POST(req: Request, res: Response,  segmentData: { params: Params }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
@@ -46,7 +47,7 @@ export async function POST(req: Request, res: Response) {
     );
   }
 }
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request, res: Response,segmentData: { params: Params }) {
   try {
     const posts = await prisma.post.findMany({
       include: {

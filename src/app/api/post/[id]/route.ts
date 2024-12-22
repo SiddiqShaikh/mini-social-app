@@ -1,7 +1,12 @@
 import { prisma } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
+type Params = Promise<{ req: Request }>;
 
-export async function GET(req: Request, res: Response) {
+export async function GET(
+  req: Request,
+  res: Response,
+  segmentData: { params: Params }
+) {
   const id = req.url.split("/");
 
   try {
