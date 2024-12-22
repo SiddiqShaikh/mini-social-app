@@ -1,0 +1,50 @@
+// Generator and datasource remain unchanged
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model stays the same
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  hashPassword String
+  createdAt    DateTime @default(now()) // Timestamp for when the user was created
+  updatedAt    DateTime @updatedAt 
+  posts        Post[]
+  comments     Comment[] // New relationship to comments
+}
+
+// Post model modified to reflect new relationships with comments
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  image     String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime  @default(now()) // Timestamp for when the post was created
+  updatedAt DateTime  @updatedAt 
+  comments  Comment[] // New relationship to comments
+}
+
+// New Comment model
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Author of the comment (User)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+
+  // Post that the comment belongs to
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+}
