@@ -1,13 +1,11 @@
 import Navbar from "@/components/layout/navbar";
 import getCurrentUser from "../actions/getCurrentUser";
 import { redirect } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 export default async function RootLayout({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: never;
 }) {
   const currentUser = await getCurrentUser();
 
