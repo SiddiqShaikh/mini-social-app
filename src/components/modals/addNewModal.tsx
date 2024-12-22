@@ -103,7 +103,8 @@ export default function AddNewModal() {
     axios
       .post("/api/post", postData)
       .then((res) => {
-        router.refresh();
+        //router.refresh();
+        router.push(router.asPath);
         toast.success(res.data.message ?? "Success");
         addNewModalState.onClose();
         
