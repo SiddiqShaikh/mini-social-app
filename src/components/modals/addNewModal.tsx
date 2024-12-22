@@ -98,7 +98,7 @@ export default function AddNewModal() {
       .post("/api/post", postData)
       .then((res) => {
         //router.refresh();
-        router.push(router.asPath);
+        // router.push(router.asPath);
         toast.success(res.data.message ?? "Success");
         addNewModalState.onClose();
         // fetchPosts();

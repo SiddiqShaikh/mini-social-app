@@ -10,8 +10,8 @@ import { usePostStore } from "@/app/hooks/useFetchPosts";
 
 export default function Home() {
   // const [posts, setPosts] = useState<IPost[]>([]);
-  const {error,fetchPosts,loading,posts} = usePostStore()
-  const [isLoading, setIsLoading] = useState(false);
+  const {error,fetchPosts,isLoading,posts} = usePostStore()
+  // const [isLoading, setIsLoading] = useState(false);
   // const fetchPosts = useCallback(() => {
   //   setIsLoading(true);
   //   axios
@@ -38,7 +38,7 @@ export default function Home() {
       </div>
     );
   }
-  
+
 
   return (
     <div className={`calc(min-h-screen_-_4rem) w-full`}>

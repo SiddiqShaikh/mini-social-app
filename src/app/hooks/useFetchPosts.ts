@@ -4,23 +4,23 @@ import { IPost } from "@/types/commonTypes";
 
 interface PostState {
   posts: IPost[];
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
   fetchPosts: () => Promise<void>;
 }
 
 export const usePostStore = create<PostState>((set) => ({
   posts: [],
-  loading: false,
+  isLoading: false,
   error: null,
 
   fetchPosts: async () => {
-    set({ loading: true, error: null });
+    set({ isLoading: true, error: null });
     try {
       const res = await axios.get("/api/post");
-      set({ posts: res.data.data, loading: false });
+      set({ posts: res.data.data, isLoading: false });
     } catch (err) {
-      set({ error: "Failed to fetch posts", loading: false, posts: [] });
+      set({ error: "Failed to fetch posts", isLoading: false, posts: [] });
     }
   },
 }));

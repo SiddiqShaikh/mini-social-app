@@ -50,6 +50,9 @@ export async function POST(req: Request, res: Response,  segmentData: { params: 
 export async function GET(req: Request, res: Response,segmentData: { params: Params }) {
   try {
     const posts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: 'desc', 
+      },
       include: {
         author: {
           select: {
